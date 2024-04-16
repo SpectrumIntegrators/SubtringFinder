@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Substring index finder</title>
+        <script>
+
+function updateCode() {
+    let inputbox = document.getElementById("input");
+    let variableName = (document.getElementById("variablename").value.trim().length > 0 ? document.getElementById("variablename").value.trim() : "var");
+
+    if (inputbox.selectionStart == inputbox.selectionEnd) {
+        document.getElementById("codeexamples").classList.add("hidden");
+        document.getElementById("codeexamplehelp").classList.remove("hidden");
+        
+        return;
+    } else {
+        document.getElementById("codeexamples").classList.remove("hidden");
+        document.getElementById("codeexamplehelp").classList.add("hidden");
+    }
+
+    let variableFields = document.getElementsByClassName("variablename");
+    Array.from(variableFields).forEach((v) => {
+        v.textContent = variableName;
+    });
+
+    document.getElementById("start_zero").textContent = inputbox.selectionStart;
+    document.getElementById("end_zero").textContent = inputbox.selectionEnd;
+    document.getElementById("start_one").textContent = inputbox.selectionStart+1;
+    document.getElementById("end_one").textContent = inputbox.selectionEnd+1;
+    document.getElementById("length").textContent = inputbox.selectionEnd - inputbox.selectionStart;
+    document.getElementById("selectedvalue").textContent = inputbox.value.substring(inputbox.selectionStart, inputbox.selectionEnd);
+
+    // S+
+    document.getElementById("midstart").textContent = inputbox.selectionStart+1;
+    document.getElementById("midlength").textContent = inputbox.selectionEnd - inputbox.selectionStart;
+    if (inputbox.selectionStart == 0) {
+        document.getElementById("splusleftlength").textContent = inputbox.selectionEnd;
+        document.getElementById("splusleft").classList.remove("hidden");
+    } else {
+        document.getElementById("splusleft").classList.add("hidden");
+    }
+    if (inputbox.selectionEnd == inputbox.value.length) {
+        document.getElementById("splusrightlength").textContent = inputbox.selectionEnd - inputbox.selectionStart;
+        document.getElementById("splusright").classList.remove("hidden");
+    } else {
+        document.getElementById("splusright").classList.add("hidden");
+    }
+
+    // Lua
+    document.getElementById("substart").textContent = inputbox.selectionStart+1;
+    document.getElementById("subend").textContent = inputbox.selectionEnd;
+
+    // JavaScript
+    document.getElementById("substringstart").textContent = inputbox.selectionStart;
+    document.getElementById("substringend").textContent = inputbox.selectionEnd;
+
+    // Python
+    document.getElementById("slicestart").textContent = inputbox.selectionStart;
+    document.getElementById("sliceend").textContent = inputbox.selectionEnd;
+    if (inputbox.selectionStart == 0) {
+        document.getElementById("sliceleftend").textContent = (inputbox.selectionEnd - inputbox.selectionStart).toString();
+        document.getElementById("pythonleft").classList.remove("hidden");
+    } else {
+        document.getElementById("pythonleft").classList.add("hidden");
+    }
+    if (inputbox.selectionEnd == inputbox.value.length) {
+        document.getElementById("slicerightstart").textContent = (-(inputbox.selectionEnd - inputbox.selectionStart)).toString();
+        document.getElementById("pythonright").classList.remove("hidden");
+    } else {
+        document.getElementById("pythonright").classList.add("hidden");
+    }
+
+    //C#
+    document.getElementById("sharpstart").textContent = inputbox.selectionStart;
+    document.getElementById("sharplength").textContent = (inputbox.selectionEnd - inputbox.selectionStart);
+    if (inputbox.selectionEnd == inputbox.value.length) {
+        document.getElementById("sharprightstart").textContent = inputbox.selectionStart;
+        document.getElementById("sharpright").classList.remove("hidden");
+    } else {
+        document.getElementById("sharpright").classList.add("hidden");
+    }
+
+    //PowerShell
+    document.getElementById("psstart").textContent = inputbox.selectionStart;
+    document.getElementById("pslength").textContent = (inputbox.selectionEnd - inputbox.selectionStart);
+    if (inputbox.selectionEnd == inputbox.value.length) {
+        document.getElementById("psrightstart").textContent = inputbox.selectionStart;
+        document.getElementById("psright").classList.remove("hidden");
+    } else {
+        document.getElementById("psright").classList.add("hidden");
+    }
+
+    //BASH
+    document.getElementById("bashstart").textContent = inputbox.selectionStart;
+    document.getElementById("bashlength").textContent = (inputbox.selectionEnd - inputbox.selectionStart);
+    if (inputbox.selectionEnd == inputbox.value.length) {
+        document.getElementById("bashrightstart").textContent = inputbox.selectionStart;
+        document.getElementById("bashright").classList.remove("hidden");
+    } else {
+        document.getElementById("bashright").classList.add("hidden");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () =>{
+    document.getElementById("input").addEventListener("selectionchange", updateCode);
+    document.getElementById("variablename").addEventListener("change", updateCode);
+});
+        </script>
+        <style>
+            code {
+                background-color: silver;
+                margin-left: 0.25rem;
+                padding: 0.25rem;
+                line-height: 2rem;
+                user-select: all;
+            }
+            textarea {
+                font-size: 1.5rem;
+            }
+            .hidden {
+                display: none;
+            }
+            table tr td:nth-of-type(2) {
+                min-width: 2rem;
+                text-align: right;
+            }
+            dt {
+                font-weight: bold;
+            }
+            dd {
+                max-width: 60vw;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Substring Finder</h1>
+        <div>Generates substring code for SIMPL+, Lua, JavaScript, Python, C#, PowerShell, and BASH.</div>
+        <div>Enter your string here and then select the portion you want to extract:</div>
+        <div><textarea rows="4" cols="60" id="input" placeholder="Enter some text here, and then highlight a portion of it to generate some code examples."></textarea></div>
+        <div>Enter your variable name</div>
+        <div><input type="text" id="variablename" value="myVar"></div>
+        <h2>Raw values</h2>
+        <table>
+            <tr>
+                <td>Selection start (0-based)</td>
+                <td id="start_zero"></td>
+            </tr>
+            <tr>
+                <td>Selection end (0-based)</td>
+                <td id="end_zero"></td>
+            </tr>
+            <tr>
+                <td>Selection start (1-based)</td>
+                <td id="start_one"></td>
+            </tr>
+            <tr>
+                <td>Selection end (1-based)</td>
+                <td id="end_one"></td>
+            </tr>
+            <tr>
+                <td>Selection length</td>
+                <td id="length"></td>
+            </tr>
+            <tr>
+                <td>Selected value</td>
+                <td id="selectedvalue"></td>
+            </tr>
+        </table>
+        <h2>Code Examples</h2>
+        <div id="codeexamplehelp">Select some text in the input box to show code examples</div>
+        <ul id="codeexamples" class="hidden">
+            <li>
+                S+:
+                <code>MID(<span class="variablename"></span>, <span id="midstart">0</span>, <span id="midlength">0</span>);</code>
+                <span id="splusleft">or <code>LEFT(<span class="variablename"></span>, <span id="splusleftlength">0</span>);</code></span>
+                <span id="splusright">or <code>RIGHT(<span class="variablename"></span>, <span id="splusrightlength">0</span>);</code></span>
+            </li>
+            <li>
+                Lua: <code>string.sub(<span class="variablename"></span>, <span id="substart">0</span>, <span id="subend">0</span>)</code>
+            </li>
+            <li>
+                JavaScript: <code><span class="variablename"></span>.substring(<span id="substringstart">0</span>, <span id="substringend">0</span>);</code>
+            </li>
+            <li>
+                Python:
+                <code><span class="variablename"></span>[<span id="slicestart"></span>:<span id="sliceend"></span>]</code>
+                <span id="pythonleft">or <code><span class="variablename"></span>[:<span id="sliceleftend"></span>]</code></span>
+                <span id="pythonright">or <code><span class="variablename"></span>[<span id="slicerightstart"></span>:]</code></span>
+            </li>
+            <li>
+                C#:
+                <code><span class="variablename"></span>.Substring(<span id="sharpstart"></span>, <span id="sharplength"></span>);</code>
+                <span id="sharpright">or <code><span class="variablename"></span>.Substring(<span id="sharprightstart"></span>);</code></span>
+            </li>
+            <li>
+                PowerShell:
+                <code>$<span class="variablename"></span>.Substring(<span id="psstart"></span>, <span id="pslength"></span>);</code>
+                <span id="psright">or <code>$<span class="variablename"></span>.Substring(<span id="psrightstart"></span>);</code></span>
+            </li>
+            <li>
+                BASH:
+                <code>${<span class="variablename"></span>:<span id="bashstart"></span>:<span id="bashlength"></span>}</code>
+                <span id="bashright">or <code>${<span class="variablename"></span>:<span id="bashrightstart"></span>}</code></span>
+            </li>
+        </ul>
+        <h2>Syntax Specifications</h2>
+        <dl>
+            <dt>S+</dt>
+            <dd>1-based indexing; <code>MID(var, start, length)</code> (captures length characters including start character), <code>LEFT(var, length)</code> captures length characters from the beginning of the string, or <code>RIGHT(var, length)</code> captures length characters from the end of the string</dd>
+
+            <dt>Lua</dt>
+            <dd>1-based indexing; <code>string.sub(var, start, end)</code> captures from start to end, including start and end characters</dd>
+
+            <dt>JavaScript</dt>
+            <dd>Zero-based indexing; <code>var.substring(start, end)</code> captures from start to end, including start and excluding end</dd>
+
+            <dt>Python</dt>
+            <dd>Zero-based indexing; <code>var[start:end]</code> captures from start to end including start and excluding end; <code>var[:end]</code> captures up to end excluding end; or <code>var[start:]</code> captures from start to the end of the string including start; if start is negative, it is counted back from the end of the string; if end is negative, it is counted back from the end of the string</dd>
+
+            <dt>C#</dt>
+            <dd>Zero-based indexing; <code>var.Substring(start, length)</code> captures length characters from start including start character</dd>
+
+            <dt>PowerShell</dt>
+            <dd>Zero-based indexing; <code>$var.Substring(start, length)</code> captures length characters from start including start character</dd>
+
+            <dt>BASH</dt>
+            <dd>Zero-based indexing; <code>${var:start:length}</code> captures length characters from start including start character, or <code>${var:start}</code> captures from start to the end of the string including start</dd>
+        </dl>
+    </body>
+</html>
